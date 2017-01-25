@@ -14,25 +14,52 @@
         this.resize();
         this.jqchildren.find(".durationpicker-duration").trigger('change');
         var _self = this;
+
+        var hours   = 0;
+        var minutes = 0;
     };
 
     durationPicker.prototype = {
         constructor: durationPicker,
         setup: function () {
-            this.element.before(this.jqitem);
-            this.element.hide();
+            var el = this.element;
+
+            el.before(this.jqitem);
+            el.hide();
+
+            // Initialize selector value to 0 if value is blank
+            if (el.val() === '') {
+               el.val(0);
+            }
+
+            // Calculate hours and minutes, in minutes
+            var total = parseInt(el.val(), 10);
+            minutes = total % 60;
+            total   = Math.floor(total/60);
+            hours   = total % 24;
+
+            // Set value of individual inputs (for display purposes on init)
+            $('#duration-hours').val(hours);
+            $('#duration-minutes').val(minutes);
+
             this.jqchildren.find(".durationpicker-duration").on('change', {ths: this}, function (ev) {
-                var element = ev.data.ths.element;
-                var value = "";
+                var element   = ev.data.ths.element;
+                var totalTime = 0;
                 $(this).parent().parent().find('input').each(function () {
                     var input = $(this);
                     var val = 0;
                     if (input.val() != null && input.val() != ""){
                         val = input.val();
+
+                        // Calculate total time in minutes
+                        if (input.attr('id') == "duration-hours") {
+                            totalTime += val * 60;
+                        } else if (input.attr('id') == "duration-minutes") {
+                            totalTime += val;
+                        }
                     }
-                    value += val + input.next().text() + ",";
                 });
-                value = value.slice(0, -1);
+                // Set input selector value to total time
                 element.val(value);
             });
             // $(".durationpicker-duration").trigger();
@@ -109,12 +136,7 @@
         	label: "m",
         	min: 0,
         	max: 59
-        },
-        seconds: {
-        	label: "s",
-        	min: 0,
-        	max: 59
-        },
+        }
         classname: 'form-control',
         responsive: true
     };
