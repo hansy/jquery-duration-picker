@@ -136,7 +136,7 @@
         	label: "m",
         	min: 0,
         	max: 59
-        }
+        },
         classname: 'form-control',
         responsive: true
     };
