@@ -46,15 +46,26 @@
                 var element   = ev.data.ths.element;
                 var totalTime = 0;
                 $(this).parent().parent().find('input').each(function () {
-                    var input = $(this);
-                    var val = 0;
+                    var input      = $(this);
+                    var val        = 0;
+                    var durationEl = input.next();
+                    var durationId = input.attr('id');
+
                     if (input.val() != null && input.val() != ""){
-                        val = input.val();
+                        // Convert string to int
+                        val = parseInt(input.val(), 10); 
+
+                        // Change plurality of label
+                        if (val != 1) {
+                            makePlural(durationEl, durationId);
+                        } else {
+                            makeSingular(durationEl, durationId);
+                        }
 
                         // Calculate total time in minutes
-                        if (input.attr('id') == "duration-hours") {
+                        if (durationId == "duration-hours") {
                             totalTime += val * 60;
-                        } else if (input.attr('id') == "duration-minutes") {
+                        } else if (durationId == "duration-minutes") {
                             totalTime += val;
                         }
                     }
@@ -109,6 +120,22 @@
         // })
     };
 
+    function makePlural(selector, id) {
+        if (id == "duration-hours") {
+            selector.html("hours");
+        } else if (id == "duration-minutes") {
+            selector.html("minutes");
+        }
+    }
+
+    function makeSingular(selector, id) {
+        if (id == "duration-hours") {
+            selector.html("hour");
+        } else if (id == "duration-minutes") {
+            selector.html("minute");
+        }
+    }
+
     function generate_template (settings) {
         var stages = [];
         for (var key in Object.keys(settings)){
@@ -128,14 +155,14 @@
 
     $.fn.durationPicker.defaults = {
         hours: {
-        	label: "h",
-        	min: 0,
-        	max: 24
+            label: "hour",
+            min: 0,
+            max: 24
         },
         minutes: {
-        	label: "m",
-        	min: 0,
-        	max: 59
+            label: "minute",
+            min: 0,
+            max: 59
         },
         classname: 'form-control',
         responsive: true
