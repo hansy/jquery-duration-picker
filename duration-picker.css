@@ -2,13 +2,14 @@
     background-color: white;
     border: 1px solid darkgrey;
     display: inline-block;
-    width: auto;
+    width: 250px;
+    margin: 10px 0;
 }
 
 .durationpicker-innercontainer {
     display: inline-block;
-    width: auto;
-    padding-right: 5px;
+    width: 100px;
+    margin: 0 5px;
 }
 
 .durationpicker-duration {
