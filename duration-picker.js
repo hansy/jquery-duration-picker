@@ -60,7 +60,7 @@
                     }
                 });
                 // Set input selector value to total time
-                element.val(value);
+                element.val(totalTime);
             });
             // $(".durationpicker-duration").trigger();
             window.addEventListener('resize', this.resize);
