@@ -39,8 +39,8 @@
             hours   = total % 24;
 
             // Set value of individual inputs (for display purposes on init)
-            $('#duration-hours').val(hours);
-            $('#duration-minutes').val(minutes);
+            this.jqitem.find('#duration-hours').val(hours);
+            this.jqitem.find('#duration-minutes').val(minutes);
 
             this.jqchildren.find(".durationpicker-duration").on('change', {ths: this}, function (ev) {
                 var element   = ev.data.ths.element;
